@@ -1,0 +1,57 @@
+<template>
+  <a-layout class="h-full">
+    <a-layout-header class="pl-0">
+      <div class="h-full p-2.5 bg-white" style="width: 200px">
+        <div class="h-full bg-gray-300 rounded-sm" />
+      </div>
+    </a-layout-header>
+    <a-layout class="h-full">
+      <a-layout-sider width="200">
+        <a-menu
+          :selectedKeys="sideKeys"
+          :openKeys="openKeys"
+          mode="inline"
+          class="h-full border-r-0"
+          theme="dark"
+          @select="onMuItmSelect"
+        >
+          <a-menu-item v-for="model in Object.values(models)" :key="model.name">
+            {{model.label}}
+          </a-menu-item>
+        </a-menu>
+      </a-layout-sider>
+      <a-layout>
+        <a-layout-content class="bg-gray-300 p-2.5 m-0 h-full">
+          <div class="bg-white h-full p-2.5"><slot/></div>
+        </a-layout-content>
+      </a-layout>
+    </a-layout>
+  </a-layout>
+</template>
+
+<script lang="ts" setup>
+import router from '../router'
+import { SelectInfo } from 'ant-design-vue/lib/menu/src/interface'
+import { onMounted, reactive } from 'vue'
+import project from '@/json/project.json'
+import models from '@/json/models.json'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const sideKeys = reactive<string[]>([])
+const openKeys = reactive<string[]>([])
+
+onMounted(() => actSideKeys(route.path))
+router.beforeEach(to => actSideKeys(to.path))
+
+function actSideKeys(path: string) {
+  const paths = path.split('/')
+  sideKeys.splice(0, sideKeys.length, ...paths)
+  if (paths.length) {
+    openKeys.splice(0, openKeys.length, ...paths.slice(0, -1))
+  }
+}
+function onMuItmSelect(params: SelectInfo) {
+  router.push(`/${project.name}/` + (params.keyPath || []).join('/'))
+}
+</script>
