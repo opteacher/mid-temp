@@ -1,18 +1,19 @@
-# Vue 3 + TypeScript + Vite
+# server-package中台模板
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+用于生成后台项目的中台页面，可在线部署或下载下来编译后上传，主要用于后端数据管理功能。
 
-## Recommended IDE Setup
+* 前端框架：vue3
+* 脚手架工具：vite
+* 组件库：antdv + [frontend-library](https://github.com/opteacher/frontend-library)
+* 页面路由：vue-router
+* css工具：tailwindcss
+* 全局缓存：pinia
+* req工具：axios
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## 配置流程
 
-## Type Support For `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+1. 从server-package的项目页面跳转到中台页面（登录、导航、首页任意），选择【发布中台】，在弹出的对话框中选择【导出】下载中台源码文件
+2. 执行`git init && git submodule init && git submodule add https://github.com/opteacher/frontend-library.git lib/frontend-library`导入frontend-library前端组件库
+3. 找到`lib/frontend-library/src/utils.ts`中的`getDftPjt`函数，修改其返回值为`const getDftPjt = () => import.meta.env.VITE_APP_PJT || 'frontend-library'`
+4. 执行`npm install`安装依赖
+5. 【可选】如需`npm run dev`运行开发模式，修改`vite.config.ts`中的代理服务器为后台实例host
