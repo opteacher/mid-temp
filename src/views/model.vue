@@ -34,12 +34,13 @@ import { createByFields } from '@lib/types/mapper'
 import api from '@/apis/model'
 import { gnlCpy } from '@lib/utils'
 import { bsTpDefault } from '@lib/types/index'
+import Column from '@lib/types/column'
 
 const route = useRoute()
 const mname = route.params.mname as string
 const model = (models as any)[mname]
 const table = model.table
-const columns = table.columns
+const columns = table.columns.map((col: any) => Column.copy(col))
 const mapper = createByFields(model.form.fields)
 const emitter = new Emitter()
 

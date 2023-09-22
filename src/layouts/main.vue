@@ -15,7 +15,7 @@
           theme="dark"
           @select="onMuItmSelect"
         >
-          <a-menu-item v-for="model in Object.values(models)" :key="model.name">
+          <a-menu-item v-for="model in Object.values(models).filter((model: any) => model.disp)" :key="model.name">
             {{model.label}}
           </a-menu-item>
         </a-menu>
