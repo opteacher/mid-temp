@@ -23,7 +23,14 @@
         :wrapper-col="{ span: lgnProps.hasLabel ? 24 - lgnProps.lblWidth : 24 }"
         @finish="onFinish"
       >
-        <FormItem v-for="field in lgnFields" :key="field.key" :field="field" :form="formState" />
+        <FormItem
+          v-for="(mapper, key) of lgnMapper"
+          :key="key"
+          :skey="key"
+          :mapper="mapper"
+          :form="formState"
+          @update:fprop="(fm: any) => setProp(formState, key.toString(), fm[key])"
+        />
 
         <a-form-item v-if="lgnProps.logAccount" name="remember">
           <a-checkbox v-model:checked="formState.remember">记住</a-checkbox>
@@ -46,22 +53,22 @@ import { onMounted, reactive } from 'vue'
 import MidLgn from '@/types/midLgn'
 import Field from '@lib/types/field'
 import { useRouter } from 'vue-router'
-import { lgnAPI as api } from '@/apis'
+import api from '@/apis/login'
 import project from '@/json/project.json'
+import { createByFields } from '@lib/types/mapper'
+import { setProp } from '@lib/utils'
 
 const router = useRouter()
 const lgnProps = reactive(MidLgn.copy(project.middle.login))
-const lgnFields = reactive(
-  [
-    /*return fields.map(field => JSON.stringify(field)).join(',\n      ')*/
-  ].map((field: any) => {
-    const ret = Field.copy(field)
-    if (!lgnProps.hasLabel) {
-      ret.label = ''
-    }
-    return ret
-  }) as Field[]
-)
+const lgnMapper = createByFields([
+  /*return fields.map(field => JSON.stringify(field)).join(',\n      ')*/
+].map((field: any) => {
+  const ret = Field.copy(field)
+  if (!lgnProps.hasLabel) {
+    ret.label = ''
+  }
+  return ret
+}) as Field[])
 const formState = reactive(
   Object.fromEntries(project.auth.props.map((prop: any) => [prop.name, '']).concat([['remember', true]]))
 )

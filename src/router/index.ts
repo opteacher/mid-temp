@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
     path: `/${project.name}/:mname`,
     name: 'model',
     component: Model,
-    /*return auth ? 'meta: { reLogin: true }' : ''*/
+    /*return auth ? 'meta: { reqLogin: true }' : ''*/
   }
   /*return auth ? `,\n{\n    path: \'/${project.name}/login\',\n    name: \'login\',\n    component: login\n  }` : ''*/
 ]
