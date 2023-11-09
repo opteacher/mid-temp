@@ -1,8 +1,19 @@
 <template>
   <a-layout class="h-full">
-    <a-layout-header class="pl-0">
+    <a-layout-header class="pl-0 pr-5 flex">
       <div class="h-full p-2.5 bg-white" style="width: 200px">
         <div class="h-full bg-gray-300 rounded-sm" />
+      </div>
+      <div class="flex flex-1 leading-16 justify-between">
+        <div />
+        <a-popover v-if="project.auth.model" placement="bottomRight">
+          <template #content>
+            <a-button type="primary" danger ghost @click="onLogoutClick">退出</a-button>
+          </template>
+          <a-button class="h-full w-16 rounded-none text-gray-300 hover:text-primary" type="text">
+            <template #icon><UserOutlined class="text-2xl leading-none" /></template>
+          </a-button>
+        </a-popover>
       </div>
     </a-layout-header>
     <a-layout class="h-full">
@@ -15,14 +26,17 @@
           theme="dark"
           @select="onMuItmSelect"
         >
-          <a-menu-item v-for="model in Object.values(models).filter((model: any) => model.disp)" :key="model.name">
+          <a-menu-item
+            v-for="model in Object.values(models).filter((model: any) => model.disp)"
+            :key="model.name"
+          >
             {{model.label}}
           </a-menu-item>
         </a-menu>
       </a-layout-sider>
       <a-layout>
         <a-layout-content class="bg-gray-300 p-2.5 m-0 h-full">
-          <div class="bg-white h-full p-2.5"><slot/></div>
+          <div class="bg-white h-full p-2.5"><slot /></div>
         </a-layout-content>
       </a-layout>
     </a-layout>
@@ -36,6 +50,7 @@ import { onMounted, reactive } from 'vue'
 import project from '@/json/project.json'
 import models from '@/json/models.json'
 import { useRoute } from 'vue-router'
+import { UserOutlined } from '@ant-design/icons-vue'
 
 const route = useRoute()
 const sideKeys = reactive<string[]>([])
@@ -53,5 +68,9 @@ function actSideKeys(path: string) {
 }
 function onMuItmSelect(params: SelectInfo) {
   router.push(`/${project.name}/` + (params.keyPath || []).join('/'))
+}
+function onLogoutClick() {
+  window.localStorage.removeItem('token')
+  router.replace({ path: '/app_manager/login', replace: true })
 }
 </script>
