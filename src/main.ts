@@ -8,6 +8,10 @@ import './style.css'
 import { createPinia } from 'pinia'
 import axios from 'axios'
 
+if (import.meta.env.PROD) {
+  axios.defaults.baseURL = `http://${project.name}:${project.port}`
+}
+
 axios.interceptors.request.use(
   function (config) {
     const token = `Bearer ${localStorage.getItem('token')}`

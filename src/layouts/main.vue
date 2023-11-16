@@ -26,11 +26,8 @@
           theme="dark"
           @select="onMuItmSelect"
         >
-          <a-menu-item
-            v-for="model in Object.values(models).filter((model: any) => model.disp)"
-            :key="model.name"
-          >
-            {{model.label}}
+          <a-menu-item v-for="model in sdNavMdls" :key="model.name">
+            {{ model.label }}
           </a-menu-item>
         </a-menu>
       </a-layout-sider>
@@ -46,17 +43,33 @@
 <script lang="ts" setup>
 import router from '../router'
 import { SelectInfo } from 'ant-design-vue/lib/menu/src/interface'
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import project from '@/json/project.json'
 import models from '@/json/models.json'
 import { useRoute } from 'vue-router'
 import { UserOutlined } from '@ant-design/icons-vue'
+import api from '@/apis/model'
 
 const route = useRoute()
+const sdNavMdls = ref<{ name: string; label: string }[]>([])
 const sideKeys = reactive<string[]>([])
 const openKeys = reactive<string[]>([])
 
-onMounted(() => actSideKeys(route.path))
+onMounted(async () => {
+  const mdls = Object.values(models).filter((model: any) => model.disp)
+  for (const mname of Object.keys(models)) {
+    try {
+      await api.all(mname, { axiosConfig: { params: { limit: 1 } } })
+    } catch (e) {
+      mdls.splice(
+        mdls.findIndex((mdl: any) => mdl.name === mname),
+        1
+      )
+    }
+  }
+  sdNavMdls.value = mdls as { name: string; label: string }[]
+  actSideKeys(route.path)
+})
 router.beforeEach(to => actSideKeys(to.path))
 
 function actSideKeys(path: string) {
