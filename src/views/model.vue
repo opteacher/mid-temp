@@ -10,9 +10,7 @@
       sclHeight="h-full"
       :columns="columns"
       :mapper="mapper"
-      :copy="(src: any, tgt?: any, force = true) =>
-        gnlCpy(() => genDftFmProps(model.props), src, tgt, { force })
-      "
+      :new-fun="() => genDftFmProps(model.props)"
       :emitter="emitter"
       :size="table.size"
       :pagable="table.hasPages"
@@ -32,8 +30,7 @@ import { useRoute } from 'vue-router'
 import { TinyEmitter as Emitter } from 'tiny-emitter'
 import { createByFields } from '@lib/types/mapper'
 import api from '@/apis/model'
-import { gnlCpy } from '@lib/utils'
-import { bsTpDefault } from '@lib/types/index'
+import { genDftFmProps } from '@/utils'
 import Column from '@lib/types/column'
 
 const route = useRoute()
@@ -43,12 +40,4 @@ const table = model.table
 const columns = table.columns.map((col: any) => Column.copy(col))
 const mapper = createByFields(model.form.fields)
 const emitter = new Emitter()
-
-function genDftFmProps(props: any[]) {
-  const ret = {} as Record<string, any>
-  for (const prop of props) {
-    ret[prop.name] = bsTpDefault(prop.ptype)
-  }
-  return ret
-}
 </script>

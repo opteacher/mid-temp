@@ -70,7 +70,9 @@ const lgnMapper = createByFields([
   return ret
 }) as Field[])
 const formState = reactive(
-  Object.fromEntries(project.auth.props.map((prop: any) => [prop.name, '']).concat([['remember', true]]))
+  Object.fromEntries(
+    project.auth.props.map((prop: any) => [prop.name, '']).concat([['remember', true]])
+  )
 )
 
 onMounted(async () => {
