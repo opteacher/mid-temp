@@ -6,7 +6,7 @@
       </div>
       <div class="flex flex-1 leading-16 justify-between">
         <div />
-        <a-popover v-if="project.auth.model" placement="bottomRight">
+        <a-popover v-if="(project.auth as any).model" placement="bottomRight">
           <template #content>
             <a-button type="primary" danger ghost @click="onLogoutClick">退出</a-button>
           </template>
