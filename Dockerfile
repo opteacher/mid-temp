@@ -2,7 +2,7 @@ FROM node:latest
 WORKDIR /app
 COPY . /app
 RUN npm config set strict-ssl false
-RUN npm config set registry http://registry.npm.taobao.org
+RUN npm config set registry https://mirrors.tuna.tsinghua.edu.cn/npm/
 RUN npm install --unsafe-perm=true --allow-root
 RUN npm run build
 
