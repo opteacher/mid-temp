@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import MainLayout from '@/layouts/main.vue'
-import models from '@/json/models.json'
+import models from '@/jsons/models.json'
 import { useRoute } from 'vue-router'
 import { TinyEmitter as Emitter } from 'tiny-emitter'
 import { createByFields } from '@lib/types/mapper'

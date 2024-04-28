@@ -54,7 +54,7 @@ import MidLgn from '@/types/midLgn'
 import Field from '@lib/types/field'
 import { useRouter } from 'vue-router'
 import api from '@/apis/login'
-import project from '@/json/project.json'
+import project from '@/jsons/project.json'
 import { createByFields } from '@lib/types/mapper'
 import { setProp } from '@lib/utils'
 

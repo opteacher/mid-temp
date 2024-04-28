@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'node:url'
-import project from './src/json/project.json'
+import project from './src/jsons/project.json'
 
 // https://vitejs.dev/config/
 export default ({ mode }) => defineConfig({

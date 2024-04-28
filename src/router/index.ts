@@ -3,8 +3,8 @@ import { makeRequest } from '@lib/utils'
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Model from '@/views/model.vue'
 /*return auth ? 'import login from \'../views/login.vue\'' : ''*/
-import project from '@/json/project.json'
-import models from '@/json/models.json'
+import project from '@/jsons/project.json'
+import models from '@/jsons/models.json'
 
 const routes: Array<RouteRecordRaw> = [
   {
