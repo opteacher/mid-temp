@@ -26,6 +26,7 @@
           theme="dark"
           @select="onMuItmSelect"
         >
+          <a-menu-item key="home">首页</a-menu-item>
           <a-menu-item v-for="model in sdNavMdls" :key="model.name">
             {{ model.label }}
           </a-menu-item>
@@ -84,6 +85,6 @@ function onMuItmSelect(params: SelectInfo) {
 }
 function onLogoutClick() {
   window.localStorage.removeItem('token')
-  router.replace({ path: '/app_manager/login', replace: true })
+  router.replace({ path: `/${project.name}/login`, replace: true })
 }
 </script>

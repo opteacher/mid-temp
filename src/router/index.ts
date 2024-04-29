@@ -4,7 +4,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Model from '@/views/model.vue'
 /*return auth ? 'import login from \'../views/login.vue\'' : ''*/
 import project from '@/jsons/project.json'
-import models from '@/jsons/models.json'
+import Home from '@/views/home.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -13,7 +13,12 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: `/${project.name}/`,
-    redirect: `/${project.name}/${Object.keys(models)[0]}`
+    redirect: `/${project.name}/home`
+  },
+  {
+    path: `/${project.name}/home`,
+    name: 'Home',
+    component: Home
   },
   {
     path: `/${project.name}/:mname`,
@@ -21,7 +26,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Model,
     /*return auth ? 'meta: { reqLogin: true }' : ''*/
   }
-  /*return auth ? `,\n{\n    path: \'/${project.name}/login\',\n    name: \'login\',\n    component: login\n  }` : ''*/
+  /*return auth ? `,\n  {\n    path: \'/${project.name}/login\',\n    name: \'login\',\n    component: login\n  }` : ''*/
 ]
 
 const router = createRouter({
