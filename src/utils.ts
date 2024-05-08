@@ -1,3 +1,4 @@
+export * from '@lib/utils'
 import { bsTpDefault } from '@lib/types'
 
 export function genDftFmProps(props: any[]) {

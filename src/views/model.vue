@@ -24,6 +24,7 @@
 </template>
 
 <script setup lang="ts">
+import { watch, ref, onMounted, reactive } from 'vue'
 import MainLayout from '@/layouts/main.vue'
 import models from '@/jsons/models.json'
 import { useRoute } from 'vue-router'
@@ -32,12 +33,26 @@ import { createByFields } from '@lib/types/mapper'
 import api from '@/apis/model'
 import { genDftFmProps } from '@/utils'
 import Column from '@lib/types/column'
+import Model from '@/types/bases/model'
+import Table from '@/types/bases/table'
 
 const route = useRoute()
-const mname = route.params.mname as string
-const model = (models as any)[mname]
-const table = model.table
-const columns = table.columns.map((col: any) => Column.copy(col))
-const mapper = createByFields(model.form.fields)
+const mname = ref<string>('')
+const model = reactive<Model>(new Model())
+const table = reactive<Table>(new Table())
+const columns = ref<Column[]>([])
+const mapper = ref<Mapper>(new Mapper({}))
 const emitter = new Emitter()
+
+onMounted(refresh)
+watch(() => route.params.mname, refresh)
+
+function refresh() {
+  mname.value = route.params.mname as string
+  Model.copy((models as any)[mname.value], model)
+  Table.copy(model.table, table)
+  columns.value = table.columns.map((col: any) => Column.copy(col))
+  mapper.value = createByFields(model.form.fields)
+  emitter.emit('refresh')
+}
 </script>

@@ -60,7 +60,7 @@ onMounted(async () => {
   const mdls = Object.values(models).filter((model: any) => model.disp)
   for (const mname of Object.keys(models)) {
     try {
-      await api.all(mname, { axiosConfig: { params: { limit: 1 } } })
+      await api.all(mname, { messages: { notShow: true }, axiosConfig: { params: { limit: 1 } } })
     } catch (e) {
       mdls.splice(
         mdls.findIndex((mdl: any) => mdl.name === mname),
