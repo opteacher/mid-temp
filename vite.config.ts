@@ -15,7 +15,7 @@ export default ({ mode }) => defineConfig({
   server: {
     proxy: {
       [`^/${project.name}/(mdl|api)`]: {
-        target: 'http://192.168.1.11:/*return project.port*/',
+        target: 'http://192.168.1.11:/*return svrPort*/',
         changeOrigin: true
       }
     }
