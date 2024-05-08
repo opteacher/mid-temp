@@ -9,7 +9,6 @@
       }"
       sclHeight="h-full"
       :columns="columns"
-      :mapper="mapper"
       :new-fun="() => genDftFmProps(model.props)"
       :emitter="emitter"
       :size="table.size"
@@ -41,7 +40,6 @@ const mname = ref<string>('')
 const model = reactive<Model>(new Model())
 const table = reactive<Table>(new Table())
 const columns = ref<Column[]>([])
-const mapper = ref<Mapper>(new Mapper({}))
 const emitter = new Emitter()
 
 onMounted(refresh)
@@ -52,7 +50,7 @@ function refresh() {
   Model.copy((models as any)[mname.value], model)
   Table.copy(model.table, table)
   columns.value = table.columns.map((col: any) => Column.copy(col))
-  mapper.value = createByFields(model.form.fields)
+  emitter.emit('update:mapper', createByFields(model.form.fields))
   emitter.emit('refresh')
 }
 </script>
