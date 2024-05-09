@@ -7,7 +7,7 @@
     }"
   >
     <div
-      class="px-5 pt-4"
+      class="px-5 pt-4 max-w-xl"
       :style="{
         'border-radius': `${lgnProps.radius}px`,
         width: `${lgnProps.width}%`,
@@ -21,7 +21,7 @@
         :model="formState"
         :label-col="{ span: lgnProps.hasLabel ? lgnProps.lblWidth : 0 }"
         :wrapper-col="{ span: lgnProps.hasLabel ? 24 - lgnProps.lblWidth : 24 }"
-        @finish="onFinish"
+        @finish="onLogin"
       >
         <FormItem
           v-for="(mapper, key) of lgnMapper"
@@ -85,7 +85,7 @@ onMounted(async () => {
   }
 })
 
-async function onFinish(values: any) {
+async function onLogin(values: any) {
   const result = await api.login(values)
   if (result.token) {
     localStorage.setItem('token', result.token)
