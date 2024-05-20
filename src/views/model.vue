@@ -11,6 +11,7 @@
       :columns="columns"
       :new-fun="() => genDftFmProps(model.props)"
       :emitter="emitter"
+      :mapper="mapper"
       :size="table.size"
       :pagable="table.hasPages"
       :refOptions="table.refresh"
@@ -28,7 +29,7 @@ import MainLayout from '@/layouts/main.vue'
 import models from '@/jsons/models.json'
 import { useRoute } from 'vue-router'
 import { TinyEmitter as Emitter } from 'tiny-emitter'
-import { createByFields } from '@lib/types/mapper'
+import Mapper, { createByFields } from '@lib/types/mapper'
 import api from '@/apis/model'
 import { genDftFmProps } from '@/utils'
 import Column from '@lib/types/column'
@@ -40,6 +41,7 @@ const mname = ref<string>('')
 const model = reactive<Model>(new Model())
 const table = reactive<Table>(new Table())
 const columns = ref<Column[]>([])
+const mapper = ref<Mapper>(new Mapper())
 const emitter = new Emitter()
 
 onMounted(refresh)
@@ -50,7 +52,8 @@ function refresh() {
   Model.copy((models as any)[mname.value], model)
   Table.copy(model.table, table)
   columns.value = table.columns.map((col: any) => Column.copy(col))
-  emitter.emit('update:mapper', createByFields(model.form.fields))
+  mapper.value = createByFields(model.form.fields)
+  emitter.emit('update:mapper', mapper.value)
   emitter.emit('refresh')
 }
 </script>
