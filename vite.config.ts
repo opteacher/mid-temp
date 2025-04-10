@@ -5,6 +5,7 @@ import project from './src/jsons/project.json'
 
 // https://vitejs.dev/config/
 export default ({ mode }) => defineConfig({
+  base: `/${project.middle.prefix || project.name}`,
   plugins: [vue()],
   resolve: {
     alias: {
