@@ -25,10 +25,10 @@ const routes: Array<RouteRecordRaw> = [
     path: `/${project.name}/:mname`,
     name: 'model',
     component: Model,
-    meta: auth ? { reqLogin: true } : undefined
+    meta: project.auth.model ? { reqLogin: true } : undefined
   }
 ]
-if (auth) {
+if (project.auth.model) {
   routes.push({
     path: `/${project.name}/login`,
     name: 'login',
@@ -42,7 +42,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, _from, next) => {
-  if (to.matched.some(record => record.meta.reqLogin) && auth) {
+  if (to.matched.some(record => record.meta.reqLogin) && project.auth.model) {
     try {
       const result = await makeRequest(
         axios.post(`/${project.name}/api/v1/${auth.name}/verify`, undefined, {

@@ -12,13 +12,6 @@ export default ({ mode }: any) =>
     plugins: [
       vue(),
       {
-        name: 'generate-environments',
-        enforce: 'pre',
-        writeBundle() {
-          writeFileSync(path.resolve(__dirname, '.env'), `VITE_PJT=${project.name}`)
-        }
-      },
-      {
         name: 'change-html-title',
         writeBundle() {
           const htmlPath = path.resolve(__dirname, 'dist', 'index.html')
