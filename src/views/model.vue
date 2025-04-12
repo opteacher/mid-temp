@@ -33,8 +33,8 @@ import Mapper, { createByFields } from '@lib/types/mapper'
 import api from '@/apis/model'
 import { genDftFmProps } from '@/utils'
 import Column from '@lib/types/column'
-import Model from '@/types/bases/model'
-import Table from '@/types/bases/table'
+import Model from '@/types/model'
+import Table from '@/types/table'
 
 const route = useRoute()
 const mname = ref<string>('')

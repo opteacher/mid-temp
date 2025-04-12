@@ -43,7 +43,7 @@
 
 <script lang="ts" setup>
 import router from '../router'
-import { SelectInfo } from 'ant-design-vue/lib/menu/src/interface'
+import { type SelectInfo } from 'ant-design-vue/lib/menu/src/interface'
 import { onMounted, reactive, ref } from 'vue'
 import project from '@/jsons/project.json'
 import models from '@/jsons/models.json'
@@ -57,8 +57,8 @@ const sideKeys = reactive<string[]>([])
 const openKeys = reactive<string[]>([])
 
 onMounted(async () => {
-  const mdls = Object.values(models).filter((model: any) => model.disp)
-  for (const mname of Object.keys(models)) {
+  const mdls = models.data.filter((model: any) => model.disp)
+  for (const mname of models.data.map(mdl => mdl.name)) {
     try {
       await api.all(mname, { messages: { notShow: true }, axiosConfig: { params: { limit: 1 } } })
     } catch (e) {

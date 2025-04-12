@@ -3,8 +3,9 @@
 import Table from './table'
 import Form from './form'
 import Property from './property'
-import { Method } from './service'
 import { gnlCpy } from '@/utils'
+
+export type Method = 'GET' | 'POST' | 'DELETE' | 'PUT' | 'LINK'
 
 export default class Model {
   key: string

@@ -1,4 +1,4 @@
-import { RequestOptions, reqAll, reqDelete, reqGet, reqLink, reqPost, reqPut } from '@lib/utils'
+import { type RequestOptions, reqAll, reqDelete, reqGet, reqLink, reqPost, reqPut } from '@lib/utils'
 
 export default {
   add: (mname: string, data: any, options?: RequestOptions) => reqPost(mname, data, options),

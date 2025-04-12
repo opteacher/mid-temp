@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { makeRequest } from '@lib/utils'
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import Model from '@/views/model.vue'
-/*return auth ? 'import login from \'../views/login.vue\'' : ''*/
+import login from '../views/login.vue'
 import project from '@/jsons/project.json'
 import Home from '@/views/home.vue'
+import auth from '@/jsons/auth.json'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -24,10 +25,16 @@ const routes: Array<RouteRecordRaw> = [
     path: `/${project.name}/:mname`,
     name: 'model',
     component: Model,
-    /*return auth ? 'meta: { reqLogin: true }' : ''*/
+    meta: auth ? { reqLogin: true } : undefined
   }
-  /*return auth ? `,\n  {\n    path: \'/${project.name}/login\',\n    name: \'login\',\n    component: login\n  }` : ''*/
 ]
+if (auth) {
+  routes.push({
+    path: `/${project.name}/login`,
+    name: 'login',
+    component: login
+  })
+}
 
 const router = createRouter({
   history: createWebHistory(),
@@ -35,15 +42,10 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, _from, next) => {
-  if (to.matched.some(record => record.meta.reqLogin) /*return `&& ${auth != null}`*/) {
+  if (to.matched.some(record => record.meta.reqLogin) && auth) {
     try {
       const result = await makeRequest(
-        axios.post([
-          '' /*return `\'/${project.name}\'`*/,
-          '/api/v1/',
-          '' /*return auth ? `\'${auth.name}\'` : ''*/,
-          '/verify'
-        ].join(''), undefined, {
+        axios.post(`/${project.name}/api/v1/${auth.name}/verify`, undefined, {
           headers: { authorization: 'Bearer ' + (localStorage.getItem('token') || '') }
         })
       )
@@ -53,7 +55,7 @@ router.beforeEach(async (to, _from, next) => {
       next()
     } catch (e) {
       next({
-        path: '//*return project.name*//login',
+        path: `${project.name}/login`,
         query: {
           redirect: to.fullPath
         }

@@ -1,7 +1,5 @@
 <template>
-  <MainLayout>
-    abcd
-  </MainLayout>
+  <MainLayout>abcd</MainLayout>
 </template>
 
 <script setup lang="ts">

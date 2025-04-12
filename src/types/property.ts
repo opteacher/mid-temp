@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { BaseTypes } from '.'
+import { type BaseTypes } from '@lib/types'
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export default class Property {

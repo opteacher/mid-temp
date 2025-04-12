@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { gnlCpy } from '@/utils'
 import Field from '@lib/types/field'
 
 export default class Form {
@@ -29,13 +30,6 @@ export default class Form {
   }
 
   static copy(src: any, tgt?: Form, force = false): Form {
-    tgt = tgt || new Form()
-    tgt.key = src.key || src._id || tgt.key
-    tgt.title = force ? src.title : src.title || tgt.title
-    tgt.width = force ? src.width : src.width || tgt.width
-    tgt.labelWidth = force ? src.labelWidth : src.labelWidth || tgt.labelWidth
-    tgt.labelAlign = force ? src.labelAlign : src.labelAlign || tgt.labelAlign
-    tgt.fields = src.fields ? src.fields.map((field: any) => Field.copy(field)) : []
-    return tgt
+    return gnlCpy(Form, src, tgt, { force, cpyMapper: { fields: Field.copy } })
   }
 }

@@ -55,20 +55,21 @@ import Field from '@lib/types/field'
 import { useRouter } from 'vue-router'
 import api from '@/apis/login'
 import project from '@/jsons/project.json'
+import auth from '@/jsons/auth.json'
 import { createByFields } from '@lib/types/mapper'
 import { setProp } from '@lib/utils'
 
 const router = useRouter()
 const lgnProps = reactive(MidLgn.copy(project.middle.login))
-const lgnMapper = createByFields([
-  /*return fields.map(field => JSON.stringify(field)).join(',\n      ')*/
-].map((field: any) => {
-  const ret = Field.copy(field)
-  if (!lgnProps.hasLabel) {
-    ret.label = ''
-  }
-  return ret
-}) as Field[])
+const lgnMapper = createByFields(
+  auth.form.fields.map((field: any) => {
+    const ret = Field.copy(field)
+    if (!lgnProps.hasLabel) {
+      ret.label = ''
+    }
+    return ret
+  }) as Field[]
+)
 const formState = reactive(
   Object.fromEntries(
     project.auth.props.map((prop: any) => [prop.name, '']).concat([['remember', true]])

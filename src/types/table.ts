@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import Cell from './cell'
+import { gnlCpy } from '@/utils'
+import Cell from '@lib/types/cell'
 import Column from '@lib/types/column'
 
 export class Cells extends Cell {
@@ -90,27 +91,6 @@ export default class Table {
   }
 
   static copy(src: any, tgt?: Table, force = false): Table {
-    tgt = tgt || new Table()
-    tgt.key = src.key || src._id || tgt.key
-    tgt.title = force ? src.title : src.title || tgt.title
-    tgt.desc = force ? src.desc : src.desc || tgt.desc
-    tgt.operaStyle = force ? src.operaStyle : src.operaStyle || tgt.operaStyle
-    tgt.size = force ? src.size : src.size || tgt.size
-    tgt.hasPages = typeof src.hasPages !== 'undefined' ? src.hasPages : force ? false : tgt.hasPages
-    tgt.maxPerPgs = force ? src.maxPerPgs : src.maxPerPgs || tgt.maxPerPgs
-    tgt.demoData = src.demoData
-    tgt.columns = src.columns ? src.columns.map((col: any) => Column.copy(col)) : []
-    tgt.cells = (src.cells || []).map((cell: any) => Cells.copy(cell))
-    tgt.operable = force ? src.operable : src.operable || tgt.operable
-    tgt.refresh = force ? src.refresh : src.refresh || tgt.refresh
-    tgt.expandURL = force ? src.expandURL : src.expandURL || tgt.expandURL
-    tgt.expHeight = force ? src.expHeight : src.expHeight || tgt.expHeight
-    tgt.colDspable = force
-      ? src.colDspable
-      : typeof src.colDspable !== 'undefined'
-      ? src.colDspable
-      : tgt.colDspable
-    tgt.imExport = force ? src.imExport || [] : src.imExport || tgt.imExport
-    return tgt
+    return gnlCpy(Table, src, tgt, { force, cpyMapper: { columns: Column.copy, cells: Cell.copy } })
   }
 }
