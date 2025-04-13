@@ -31,5 +31,14 @@ export default ({ mode }: any) =>
     },
     define: {
       'process.env': loadEnv(mode, process.cwd())
-    }
+    },
+    server: {
+      proxy: {
+        [`^/${project.name}/(mdl|api)`]: {
+          target: 'http://127.0.0.1:4009',
+          ws: true,
+          changeOrigin: true
+        }
+      }
+    },
   })

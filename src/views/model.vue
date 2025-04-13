@@ -49,8 +49,8 @@ watch(() => route.params.mname, refresh)
 
 function refresh() {
   mname.value = route.params.mname as string
-  Model.copy((models as any)[mname.value], model)
-  Table.copy(model.table, table)
+  Model.copy(models.data.find((mdl: any) => mdl.name === mname.value), model, true)
+  Table.copy(model.table, table, true)
   columns.value = table.columns.map((col: any) => Column.copy(col))
   mapper.value = createByFields(model.form.fields)
   emitter.emit('update:mapper', mapper.value)

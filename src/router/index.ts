@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { makeRequest } from '@lib/utils'
+import { makeRequest, getProp } from '@lib/utils'
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import Model from '@/views/model.vue'
 import login from '../views/login.vue'
@@ -25,10 +25,10 @@ const routes: Array<RouteRecordRaw> = [
     path: `/${project.name}/:mname`,
     name: 'model',
     component: Model,
-    meta: project.auth.model ? { reqLogin: true } : undefined
+    meta: 'model' in project.auth ? { reqLogin: true } : undefined
   }
 ]
-if (project.auth.model) {
+if ('model' in project.auth) {
   routes.push({
     path: `/${project.name}/login`,
     name: 'login',
@@ -42,10 +42,10 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, _from, next) => {
-  if (to.matched.some(record => record.meta.reqLogin) && project.auth.model) {
+  if (to.matched.some(record => record.meta.reqLogin) && 'model' in project.auth) {
     try {
       const result = await makeRequest(
-        axios.post(`/${project.name}/api/v1/${auth.name}/verify`, undefined, {
+        axios.post(`/${project.name}/api/v1/${getProp(auth, 'name')}/verify`, undefined, {
           headers: { authorization: 'Bearer ' + (localStorage.getItem('token') || '') }
         })
       )

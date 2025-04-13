@@ -57,18 +57,20 @@ import api from '@/apis/login'
 import project from '@/jsons/project.json'
 import auth from '@/jsons/auth.json'
 import { createByFields } from '@lib/types/mapper'
-import { setProp } from '@lib/utils'
+import { setProp, getProp } from '@lib/utils'
 
 const router = useRouter()
 const lgnProps = reactive(MidLgn.copy(project.middle.login))
 const lgnMapper = createByFields(
-  auth.form.fields.map((field: any) => {
-    const ret = Field.copy(field)
-    if (!lgnProps.hasLabel) {
-      ret.label = ''
-    }
-    return ret
-  }) as Field[]
+  'form' in auth
+    ? (getProp(auth, 'form').fields.map((field: any) => {
+        const ret = Field.copy(field)
+        if (!lgnProps.hasLabel) {
+          ret.label = ''
+        }
+        return ret
+      }) as Field[])
+    : []
 )
 const formState = reactive(
   Object.fromEntries(
